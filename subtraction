@@ -1,0 +1,15 @@
+public class SubtractProgram {
+    public static void main(String[] args) {
+        int num1 = 10;
+        int num2 = 5;
+        
+        int result = subtract(num1, num2);
+        
+        System.out.println("The difference between " + num1 + " and " + num2 + " is: " + result);
+    }
+    
+    // Function to subtract two numbers
+    public static int subtract(int a, int b) {
+        return a - b;
+    }
+}
