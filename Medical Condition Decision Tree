@@ -1,0 +1,55 @@
+var questionNumber = 1;
+var coma = ",";
+var backgroundColor = 255; // white background
+
+draw = function() {
+  background(backgroundColor);
+  noFill();
+  rect(42, 50, 272, 45, 1);
+  fill(0); // Set fill color to black
+  text("Have a high body temperature?", 100, 81);
+  text("yes", 100, 109);
+  text("no", 212, 109);
+  text(mouseX + coma + mouseY, mouseX, mouseY);
+
+  if (questionNumber === 1 && mouseClicked && mouseX >= 76 && mouseX <= 220 && mouseY >= 75 && mouseY <= 157) {
+    questionNumber = 2;
+  }
+
+  if (questionNumber === 2) {
+    background(backgroundColor);
+    rect(55, 148, 272, 45, 1);
+    fill(189, 136, 189); // Set fill color to black
+    text("Do you have a stuffy nose?", 74, 183); // Adjusted y-coordinate
+    text("yes", 100, 209);
+    text("no", 212, 209);
+    
+    if (mouseClicked && mouseX >= 76 && mouseX <= 220 && mouseY >= 195 && mouseY <= 277) {
+      questionNumber = 3;
+    }
+  }
+  
+  if (questionNumber === 3) {
+    background(backgroundColor);
+    rect(55, 238, 272, 45, 1);
+    fill(189, 121, 189); // Set fill color to black
+    text("Do you have a cough?", 95, 263); // Adjusted y-coordinate
+    text("yes", 100, 289);
+    text("no", 212, 289);
+    
+    if (mouseClicked && mouseX >= 76 && mouseX <= 220 && mouseY >= 307 && mouseY <= 389) {
+      questionNumber = 4;
+    }
+  }
+  
+  if (questionNumber === 4) {
+    background(backgroundColor);
+    rect(42, 148, 272, 120, 1);
+    fill(189, 121, 189); // Set fill color to black
+    text("You have a cold", 122, 209); // Adjusted x and y-coordinates
+  }
+};
+
+// Empty mouseClicked function to capture mouse clicks
+mouseClicked = function() {};
+
