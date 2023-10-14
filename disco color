@@ -1,0 +1,16 @@
+// Initialize each tile with a random color between black and white
+for (var i = 0; i < 6; i++) {
+  for (var j = 0; j < 6; j++) {
+    tiles[i][j] = getRandomColor();
+  }
+}
+
+
+function getRandomColor() {
+  var color = color(255); // Start with white
+  var blackOrWhite = random(2);
+  if (blackOrWhite < 0.5) {
+    color = color(0); // Set to black
+  }
+  return color;
+}
