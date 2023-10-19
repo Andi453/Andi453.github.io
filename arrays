@@ -1,0 +1,129 @@
+// Declare three arrays: one for the X, Y, and Speed of the bitmojis
+var bitmojiXPositions = [];
+var bitmojiYPositions = [];
+var bitmojiSpeeds = [];
+
+// Use a for loop to fill the three arrays with random values
+for (var i = 0; i < 50; i++) {
+  bitmojiXPositions[i] = random(50, 350);
+  bitmojiYPositions[i] = random(50, 350);
+  bitmojiSpeeds[i] = random(1, 2);
+}
+
+// Create a drawBitmoji function to draw a bitmoji at a given x, y, and height
+function drawBitmoji(x, y) {
+  // Your drawBitmoji function code
+
+  // Function to draw the bitmoji's head
+  function drawHead() {
+    noStroke();
+    fill(210, 180, 140);
+    ellipse(x, y, 83, 100);
+  }
+
+  // Function to draw the bitmoji's eyes
+  function drawEyes() {
+    fill(117, 79, 38); // eye color
+    ellipse(x - 15, y, 6, 4); // eye
+    ellipse(x + 13, y, 6, 4); // eye
+  }
+
+  // Function to draw the bitmoji's nose
+  function drawNose() {
+    fill(210, 180, 140); // around the eyes
+    bezier(x, y, x + 21, y + 21, x - 2, y + 20, x - 6, y + 15); // nose
+  }
+
+  // Function to draw the bitmoji's mouth
+  function drawMouth() {
+    fill(250, 245, 245); // mouth
+    arc(x + 3, y + 25, 30, 13, 1, 180); // mouth
+  }
+
+  // Function to draw the bitmoji's hair
+  function drawHair() {
+    fill(5, 5, 5); // black hair
+    quad(x - 50, y, x - 37, y - 32, x - 10, y - 50, x - 32, y - 1); // left hair
+    quad(x + 49, y - 2, x + 34, y - 32, x + 13, y - 50, x + 30, y - 1); // right hair
+    ellipse(x, y - 37, 49, 29); // top hair
+  }
+
+  // Function to draw the bitmoji's glasses
+  function drawGlasses() {
+    stroke(0, 0, 0);
+    fill(210, 180, 145); // glasses
+    ellipse(x - 16, y, 19, 14); // glasses
+    ellipse(x + 14, y, 19, 14); // glasses
+    line(x - 7, y - 1, x + 5, y - 1); // glasses
+    line(x - 40, y - 1, x - 25, y - 1); // glasses
+    line(x + 24, y - 1, x + 39, y - 1); // glasses
+  }
+
+  // Function to draw the bitmoji's body
+  function drawBody() {
+    fill(109, 154, 209); // body
+    rect(x - 40, y + 50, 78, 90, 145); // body
+  }
+
+  // Function to draw the bitmoji's text
+  function drawText() {
+    fill(26, 23, 23); // text
+    text("A.F", x - 10, y + 80, 900, 600); // text
+  }
+
+  // Draw the bitmoji components
+
+    drawHead();
+    drawMouth();
+    drawHair();
+    drawGlasses();
+    drawEyes();
+    drawNose();
+    drawBody();
+    drawText();
+}
+
+// Define the draw function
+function draw() {
+  // Clear the background
+  background(255);
+
+  // Draw the circle for the tagger that follows the mouse
+  fill(0, 0, 0);
+  ellipse(mouseX, mouseY, 20, 20);
+
+  // Loop through the bitmojis and draw them and move them
+  for (var i = 0; i < 10; i++) {
+    // If the bitmoji has not been tagged
+    var bitmojiIsTagged = false;
+    if (!bitmojiIsTagged) {
+      // Draw the bitmoji
+      drawBitmoji(bitmojiXPositions[i], bitmojiYPositions[i]);
+
+      // Move the bitmoji using its speed
+      bitmojiXPositions[i] += bitmojiSpeeds[i];
+
+      // If the bitmoji goes off the right side of the canvas
+      if (bitmojiXPositions[i] > width) {
+        // Set its X to random between -40 and 40 to restart left to right across the canvas
+        bitmojiXPositions[i] = random(-40, 40);
+
+        // Set its speed to 1 or 2 randomly
+        bitmojiSpeeds[i] = random(1, 2);
+      }
+    }
+  }
+}
+
+// Define the mouseClicked function
+function mouseClicked() {
+  // Loop through the bitmojis and check if any of them are tagged
+  for (var i = 0; i < 50; i++) {
+    // If the mouse circle of size 50 is over the bitmoji
+    if (mouseX > bitmojiXPositions[i] - 40 && mouseX < bitmojiXPositions[i] + 39 && mouseY > bitmojiYPositions[i] - 40 && mouseY < bitmojiYPositions[i] + 139) {
+      // Move the bitmoji off the screen (it is tagged)
+      bitmojiXPositions[i] = 1000;
+    }
+  }
+}
+
