@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess the PIN Code</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+            transition: background-color 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Guess the PIN Code</h1>
+    <p>Enter a 4-digit PIN code and click "Check"</p>
+
+    <input type="text" id="guessInput" maxlength="4" size="4" />
+    <button onclick="checkGuess()">Check</button>
+    <button onclick="generateHint()">Hint</button>
+
+    <p id="result"></p>
+
+    <script>
+        const generatePIN = () => {
+            return Math.floor(1000 + Math.random() * 9000).toString();
+        };
+
+        let correctPIN = generatePIN();
+        let attempts = 0;
+
+        const checkGuess = () => {
+            const guessInput = document.getElementById('guessInput');
+            const resultMessage = document.getElementById('result');
+            const body = document.body;
+
+            const userGuess = guessInput.value;
+
+            if (userGuess.length !== 4 || isNaN(userGuess)) {
+                resultMessage.textContent = 'Please enter a valid 4-digit number.';
+                return;
+            }
+
+            attempts++;
+
+            if (userGuess === correctPIN) {
+                resultMessage.textContent = 'Congratulations! You guessed the correct PIN!';
+                playSound('success');
+            } else if (attempts === 4) {
+                resultMessage.textContent = `Sorry, you've reached the maximum number of attempts. The correct PIN is ${correctPIN}.`;
+                playSound('failure');
+            } else {
+                resultMessage.textContent = getHint(userGuess);
+            }
+
+            guessInput.value = '';
+
+            if (attempts === 4 || userGuess === correctPIN) {
+                correctPIN = generatePIN();
+                attempts = 0;
+                changeBackgroundColor();
+            }
+        };
+
+        const getHint = (userGuess) => {
+            let hint = '';
+            for (let i = 0; i < userGuess.length; i++) {
+                const userDigit = parseInt(userGuess[i]);
+                const correctDigit = parseInt(correctPIN[i]);
+
+                if (userDigit === correctDigit) {
+                    hint += '2'; // Correct digit in correct position
+                } else if (correctPIN.includes(userGuess[i])) {
+                    hint += '1'; // Correct digit in wrong position
+                } else {
+                    hint += '0'; // Incorrect digit
+                }
+            }
+            return hint;
+        };
+
+        const generateHint = () => {
+            const resultMessage = document.getElementById('result');
+            return resultMessage.textContent = 'Hints: Each digit in the hint represents the following: 0 - Incorrect digit, 1 - Correct digit in wrong position, 2 - Correct digit in correct position.';
+        };
+
+        const playSound = (soundType) => {
+            const audio = new Audio();
+            if (soundType === 'success') {
+                audio.src = 'success.mp3'; // Replace with the path to your success sound file
+            } else if (soundType === 'failure') {
+                audio.src = 'failure.mp3'; // Replace with the path to your failure sound file
+            }
+            audio.play();
+        };
+
+        const changeBackgroundColor = () => {
+            const body = document.body;
+            const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+            body.style.backgroundColor = randomColor;
+        };
+    </script>
+
+</body>
+</html>
